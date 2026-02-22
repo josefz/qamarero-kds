@@ -1,27 +1,38 @@
-// Category mappings
-const CATEGORIES = {
-  patatas: ['PATATAS', 'TARRINA'],
-  bebidas: ['33cl', '50cl', 'BEBIDA', 'AGUA', 'CAÑA', 'CERVEZA' ,'DOBLE', 'RADLER', 'TERCIO', 'VERMÚ', 'COPA'],
-  complementos: ['NUGGETS','ALITAS PICANTES', 'ARITOS DE CEBOLLA', 'ARITOS DE GOUDA', 'CHEDDARPEÑOS', 'BOCADITOS DE COSTILLA', 'AGUACATE FRITO'],
-};
+function matchesKeyword(text, keyword) {
+  const kw = keyword.toUpperCase();
+  if (kw.startsWith('=')) {
+    return text === kw.slice(1); // Exact match
+  }
+  return text.includes(kw); // Partial match
+}
 
 function getCategory(text) {
   const normalized = text.trim().toUpperCase();
-  for (const [category, keywords] of Object.entries(CATEGORIES)) {
-    if (keywords.some(kw => normalized.includes(kw.toUpperCase()))) {
+  for (const [category, { keywords }] of Object.entries(CATEGORIES)) {
+    if (keywords.some(kw => matchesKeyword(normalized, kw))) {
       return category;
     }
   }
-  return 'burger'; // Default category
+  return 'others'; // Default category
 }
 
-// Add data-label attributes based on p child text
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// Add data-label attributes and apply styles based on p child text
 function labelElements() {
   document.querySelectorAll('.css-c2sd62').forEach(el => {
     const p = el.querySelector('p');
     if (p && p.textContent) {
       const category = getCategory(p.textContent);
+      const { color } = CATEGORIES[category];
       el.setAttribute('data-label', category);
+      el.style.background = hexToRgba(color, 0.15);
+      el.style.borderLeft = `3px solid ${color}`;
     }
   });
 }

@@ -5,12 +5,16 @@ Chrome extension that adds visual category indicators to items in the Qamarero K
 ## Features
 
 - Color-coded items by category:
-  - 🟡 **Yellow** - Burgers (default)
-  - 🟢 **Green** - Patatas
-  - 🔵 **Blue** - Bebidas
-  - 🟠 **Orange** - Complementos
+  - � **Orange** - Salsas
+  - 🟡 **Yellow** - Plancha (carne, queso, bacon)
+  - 🔴 **Red** - Extras (cebolla, jalapeño, pepinillo)
+  - 🟢 **Light Green** - Patatas
+  - 🟢 **Green** - Tarrinas
+  - 🟣 **Purple** - Complementos
+  - ⚪ **White** - Others/Bebidas (default)
 
 - Automatic detection via keywords
+- Support for exact match keywords (prefix with `=`)
 - Updates in real-time when new orders arrive via WebSocket
 
 ## Installation
@@ -26,30 +30,30 @@ Once installed, visit https://kds.qamarero.com/ and items will be automatically 
 
 ## Configuration
 
-### Edit Categories
-
-Modify the `CATEGORIES` object in `content.js`:
+Edit `categories.js` to customize categories, keywords, and colors:
 
 ```javascript
 const CATEGORIES = {
-  patatas: ['PATATAS', 'TARRINA'],
-  bebidas: ['33cl', '50cl', 'BEBIDA', 'AGUA', 'CAÑA', 'CERVEZA', ...],
-  complementos: ['NUGGETS', 'ALITAS PICANTES', ...],
+  salsas: {
+    keywords: ['SALSA'],
+    color: '#f48524',
+  },
+  plancha: {
+    keywords: ['CARNE', 'QUESO', 'BACON'],
+    color: '#f1c40f',
+  },
+  others: {
+    keywords: [...BEBIDAS],  // default category
+    color: '#ffffff',
+  },
 };
 ```
 
-Items not matching any category default to "burger".
+- **keywords**: Array of strings to match (case-insensitive)
+  - Prefix with `=` for exact match: `'=EXTRA BACON'`
+- **color**: Hex color for border and background (background uses 15% opacity)
 
-### Edit Colors
-
-Modify the colors in `content.css`:
-
-```css
-.css-c2sd62[data-label="burger"] {
-  background: rgba(241, 196, 15, 0.15) !important;
-  border-left: 3px solid #f1c40f !important;
-}
-```
+Items not matching any category default to "others".
 
 ## Development
 
@@ -58,8 +62,9 @@ Open `demo.html` in your browser to test styles without connecting to the live s
 ## Files
 
 - `manifest.json` - Extension configuration
+- `categories.js` - Category definitions (keywords & colors)
 - `content.js` - Categorization logic
-- `content.css` - Category styles
+- `content.css` - Base styles
 - `demo.html` - Local testing page
 
 ## After Making Changes
