@@ -10,10 +10,6 @@ const CATEGORIES = {
     keywords: ['CARNE', 'QUESO', 'BACON'],
     color: '#f1c40f',
   },
-  extras: {
-    keywords: ['CEBOLLA', 'JALAPEÑO', 'PEPINILLO',],
-    color: '#d73f0c',
-  },
   patatas: {
     keywords: ['PATATAS'],
     color: '#a4d06a',
@@ -25,6 +21,10 @@ const CATEGORIES = {
   complementos: {
     keywords: ['NUGGETS', 'ALITAS PICANTES', 'ARITOS DE CEBOLLA', 'ARITOS DE GOUDA', 'CHEDDARPEÑOS', 'BOCADITOS DE COSTILLA', 'AGUACATE FRITO'],
     color: '#e622cf',
+  },
+  extras: {
+    keywords: ['CEBOLLA', 'JALAPEÑO', 'PEPINILLO'],
+    color: '#d73f0c',
   },
   others: {
     keywords: [...BEBIDAS],
