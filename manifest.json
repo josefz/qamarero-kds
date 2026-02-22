@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
   "name": "🍔 Qamarero KDS Helper",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Visual category indicators for Qamarero KDS",
   "icons": {
-    "16": "logo/icon16.png",
-    "48": "logo/icon48.png",
-    "128": "logo/icon128.png"
+    "16": "./icons/icon16.png",
+    "48": "./icons/icon48.png",
+    "128": "./icons/icon128.png"
   },
   "content_scripts": [
     {
