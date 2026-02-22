@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qamarero KDS - Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: #f0f0f0;
+      color: #333;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 { 
+      text-align: center; 
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .order-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .order-header {
+      background: #f75d5d;
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .order-timer {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .order-user {
+      padding: 10px 16px;
+      border-bottom: 1px solid #eee;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .order-user svg {
+      width: 20px;
+      height: 20px;
+    }
+    .order-content {
+      padding: 8px 16px 16px;
+    }
+    .menu-group {
+      margin: 12px 0;
+    }
+    .menu-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .menu-badge {
+      background: #4ade80;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .menu-title {
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+      letter-spacing: 1px;
+    }
+    /* Simulating Chakra UI Stack items */
+    .css-c2sd62 {
+      padding: 8px 0 8px 38px;
+      margin: 0;
+      color: #f75d5d;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+    .css-c2sd62 p {
+      margin: 0;
+    }
+    .css-c2sd62.modifier {
+      color: #333;
+    }
+  </style>
+  <!-- Include extension CSS -->
+  <link rel="stylesheet" href="content.css">
+</head>
+<body>
+  <h1>Qamarero KDS - Demo</h1>
+  
+  <div class="orders-grid">
+    <!-- Order 1 -->
+    <div class="order-card">
+      <div class="order-header">
+        <span>Table B1·Barra</span>
+        <span class="order-timer">57:23</span>
+      </div>
+      <div class="order-user">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+        </svg>
+        Jose
+      </div>
+      <div class="order-content">
+        <div class="menu-group">
+          <div class="menu-header">
+            <span class="menu-badge">1</span>
+            <span class="menu-title">CHICHARRONA - G</span>
+          </div>
+          <div class="css-c2sd62"><p>ALITAS PICANTES (3 UNID)</p></div>
+          <div class="css-c2sd62 modifier"><p>2 CARNES</p></div>
+          <div class="css-c2sd62"><p>PATATAS NORMALES</p></div>
+          <div class="css-c2sd62"><p>TARRINA RANCHERA (30ml)</p></div>
+          <div class="css-c2sd62"><p>COCA-COLA (Botella 50cl)</p></div>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-header">
+            <span class="menu-badge">1</span>
+            <span class="menu-title">CHICHARRONA - M</span>
+          </div>
+          <div class="css-c2sd62"><p>ALITAS PICANTES (3 UNID)</p></div>
+          <div class="css-c2sd62 modifier"><p>1 CARNE</p></div>
+          <div class="css-c2sd62"><p>PATATAS NORMALES</p></div>
+          <div class="css-c2sd62"><p>TARRINA MAYONESA (30ml)</p></div>
+          <div class="css-c2sd62"><p>AQUARIUS NARANJA (Lata 33cl)</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order 2 -->
+    <div class="order-card">
+      <div class="order-header">
+        <span>Table C2·Salón</span>
+        <span class="order-timer">03:18</span>
+      </div>
+      <div class="order-user">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+        </svg>
+        Raúl
+      </div>
+      <div class="order-content">
+        <div class="menu-group">
+          <div class="menu-header">
+            <span class="menu-badge">1</span>
+            <span class="menu-title">VEGGIE DELUXE</span>
+          </div>
+          <div class="css-c2sd62"><p>NUGGETS (6 UNID)</p></div>
+          <div class="css-c2sd62"><p>PATATAS NORMALES</p></div>
+          <div class="css-c2sd62"><p>AGUA (50cl)</p></div>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-header">
+            <span class="menu-badge">1</span>
+            <span class="menu-title">DOUBLE CHEESE</span>
+          </div>
+          <div class="css-c2sd62 modifier"><p>SIN CEBOLLA</p></div>
+          <div class="css-c2sd62"><p>PATATAS DELUSSE</p></div>
+          <div class="css-c2sd62"><p>COCA-COLA (33cl)</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include extension JS -->
+  <script src="content.js"></script>
+</body>
+</html>

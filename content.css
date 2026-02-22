@@ -1,0 +1,28 @@
+/* 
+ * Custom CSS for Qamarero KDS
+ * Add your styles below
+ */
+
+.css-c2sd62[data-label] {
+  padding-left: 4px !important;
+}
+
+.css-c2sd62[data-label="burger"] {
+  background: rgba(241, 196, 15, 0.15) !important;
+  border-left: 3px solid #f1c40f !important;
+}
+
+.css-c2sd62[data-label="patatas"] {
+  background: rgba(46, 204, 113, 0.15) !important;
+  border-left: 3px solid #2ecc71 !important;
+}
+
+.css-c2sd62[data-label="bebidas"] {
+  background: rgba(52, 152, 219, 0.15) !important;
+  border-left: 3px solid #3498db !important;
+}
+
+.css-c2sd62[data-label="complementos"] {
+  background: rgba(230, 126, 34, 0.15) !important;
+  border-left: 3px solid #e67e22 !important;
+}
