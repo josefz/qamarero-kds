@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "🎯 Qamarero POS Offers Toggle",
+  "version": "1.0.0",
+  "description": "Guía paso a paso para activar/desactivar ofertas en Qamarero POS",
+  "permissions": ["storage", "tabs"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://pos.qamarero.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ]
+}
