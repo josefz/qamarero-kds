@@ -1,74 +1,23 @@
-# 🍔 Qamarero KDS Helper
+# Qamarero Extensions
 
-Chrome extension that adds visual category indicators to items in the Qamarero KDS interface.
+This repository contains two Chrome extensions designed to enhance the Qamarero platform:
 
-## Features
+## Extensions Overview
 
-- Color-coded items by category:
-  - � **Orange** - Salsas
-  - 🟡 **Yellow** - Plancha (carne, queso, bacon)
-  - 🔴 **Red** - Extras (cebolla, jalapeño, pepinillo)
-  - 🟢 **Light Green** - Patatas
-  - 🟢 **Green** - Tarrinas
-  - 🟣 **Purple** - Complementos
-  - ⚪ **White** - Others/Bebidas (default)
+- **KDS Extension**: Improves the Kitchen Display System by allowing staff to view, filter, and manage orders by category. This helps streamline kitchen workflow and order processing. Includes demo files and icons for easy testing and customization.
+- **POS Offers Toggle Extension**: Adds a popup interface to the Point of Sale system, enabling staff to quickly activate or deactivate promotional offers. This extension simplifies offer management and provides a user-friendly toggle mechanism.
 
-- Automatic detection via keywords
-- Support for exact match keywords (prefix with `=`)
-- Updates in real-time when new orders arrive via WebSocket
+## Repository Structure
+
+- `kds-extension/`: Main KDS extension for category display and demo.
+- `pos-offers-toggle-extension/`: Extension to toggle POS offers.
 
 ## Installation
 
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable **Developer mode** (toggle in top right corner)
-3. Click **Load unpacked**
-4. Select this folder
+1. Open Chrome and go to Extensions.
+2. Enable Developer Mode.
+3. Click "Load unpacked" and select the desired extension folder.
 
-## Usage
+## License
 
-Once installed, visit https://kds.qamarero.com/ and items will be automatically color-coded based on their category.
-
-## Configuration
-
-Edit `categories.js` to customize categories, keywords, and colors:
-
-```javascript
-const CATEGORIES = {
-  salsas: {
-    keywords: ['SALSA'],
-    color: '#f48524',
-  },
-  plancha: {
-    keywords: ['CARNE', 'QUESO', 'BACON'],
-    color: '#f1c40f',
-  },
-  others: {
-    keywords: [...BEBIDAS],  // default category
-    color: '#ffffff',
-  },
-};
-```
-
-- **keywords**: Array of strings to match (case-insensitive)
-  - Prefix with `=` for exact match: `'=EXTRA BACON'`
-- **color**: Hex color for border and background (background uses 15% opacity)
-
-Items not matching any category default to "others".
-
-## Development
-
-Open `demo.html` in your browser to test styles without connecting to the live site.
-
-## Files
-
-- `manifest.json` - Extension configuration
-- `categories.js` - Category definitions (keywords & colors)
-- `content.js` - Categorization logic
-- `content.css` - Base styles
-- `demo.html` - Local testing page
-
-## After Making Changes
-
-1. Go to `chrome://extensions/`
-2. Click the refresh icon on the extension
-3. Reload the KDS page
+See individual extension folders for license information.
