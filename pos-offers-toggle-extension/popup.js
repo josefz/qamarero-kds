@@ -1,99 +1,100 @@
-const pinInput = document.getElementById('pin');
+// =============================================================
+// popup.js — Extension popup logic
+//
+// Displays the current OFERTAS availability state and sends
+// toggle requests to the background service worker.
+// =============================================================
+
+'use strict';
+
 const ofertasSwitch = document.getElementById('ofertasSwitch');
 const ofertasStatus = document.getElementById('ofertasStatus');
 const messageEl = document.getElementById('message');
 
-// ---- Load saved PIN ----
-chrome.storage.sync.get(['posPin'], (data) => {
-  if (data.posPin) {
-    pinInput.value = data.posPin;
-  }
-});
+// Prevent toggle while a request is in flight
+let isToggling = false;
 
-// Save PIN on change
-pinInput.addEventListener('change', () => {
-  chrome.storage.sync.set({ posPin: pinInput.value });
-});
+// -- Load & display OFERTAS status from storage -------------------------
 
-// ---- Load & display OFERTAS status ----
 function updateOfertasStatus() {
   chrome.storage.local.get(['ofertasAvailable'], (data) => {
     if (typeof data.ofertasAvailable === 'boolean') {
       ofertasSwitch.checked = data.ofertasAvailable;
       ofertasStatus.textContent = data.ofertasAvailable ? 'ON' : 'OFF';
-      ofertasStatus.style.color = data.ofertasAvailable ? 'green' : 'red';
+      ofertasStatus.style.color = data.ofertasAvailable ? '#4caf50' : '#c62828';
     } else {
       ofertasSwitch.checked = false;
       ofertasStatus.textContent = 'Desconocido';
-      ofertasStatus.style.color = 'gray';
+      ofertasStatus.style.color = '#999';
     }
   });
 }
 
+// Load initial state
 updateOfertasStatus();
+
+// React to storage changes (e.g., from GetMenu interception)
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'local' && changes.ofertasAvailable) {
+  if (area === 'local' && changes.ofertasAvailable && !isToggling) {
     updateOfertasStatus();
   }
 });
 
-// ---- Toggle switch handler ----
+// -- Toggle switch handler ----------------------------------------------
+
 ofertasSwitch.addEventListener('change', async () => {
-  const pin = pinInput.value.trim();
-  if (!pin) {
-    showMessage('Introduce el PIN', 'error');
-    ofertasSwitch.checked = !ofertasSwitch.checked; // revert
+  if (isToggling) {
+    // Revert — a request is already in flight
+    ofertasSwitch.checked = !ofertasSwitch.checked;
     return;
   }
 
-  // The desired state is whatever the user just toggled TO
-  const desiredState = ofertasSwitch.checked; // true = ON, false = OFF
+  const desiredState = ofertasSwitch.checked;
+  isToggling = true;
+  ofertasSwitch.disabled = true;
+  showMessage(
+    desiredState ? 'Activando ofertas...' : 'Desactivando ofertas...',
+    'info'
+  );
 
-  // Save PIN
-  chrome.storage.sync.set({ posPin: pin });
-
-  // Get active tab
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-  const url = new URL(tab.url || '');
-  const isOnPos = url.hostname === 'pos.qamarero.com';
-  const isOnPosControl = isOnPos && url.pathname === '/control';
-
-  if (!isOnPosControl) {
-    // Save pending action — will be picked up by content.js after navigation
-    await chrome.storage.sync.set({
-      pendingToggle: desiredState,
-      pendingStep: 'click_menu_manager'
+  try {
+    const response = await chrome.runtime.sendMessage({
+      action: 'toggleOffers',
+      available: desiredState,
     });
-    // Navigate to /control
-    chrome.tabs.update(tab.id, { url: 'https://pos.qamarero.com/control' });
-    showMessage('Navegando a /control...', 'info');
-  } else {
-    // Already on /control — send message directly to content script
-    try {
-      await chrome.tabs.sendMessage(tab.id, {
-        action: 'toggleOffers',
-        enabled: desiredState
-      });
-      showMessage(desiredState ? 'Activando ofertas...' : 'Desactivando ofertas...', 'info');
-    } catch (err) {
-      console.error('[POS Offers Popup] Error sending message:', err);
-      // Fallback: save as pending and reload
-      await chrome.storage.sync.set({
-        pendingToggle: desiredState,
-        pendingStep: 'click_menu_manager'
-      });
-      chrome.tabs.reload(tab.id);
-      showMessage('Recargando p\u00e1gina...', 'info');
+
+    if (response.success) {
+      ofertasSwitch.checked = response.available;
+      ofertasStatus.textContent = response.available ? 'ON' : 'OFF';
+      ofertasStatus.style.color = response.available ? '#4caf50' : '#c62828';
+      showMessage(
+        response.available ? 'Ofertas activadas \u2713' : 'Ofertas desactivadas \u2713',
+        'success'
+      );
+    } else {
+      // Revert the toggle to previous state
+      ofertasSwitch.checked = !desiredState;
+      showMessage(response.error || 'Error desconocido', 'error');
     }
+  } catch (err) {
+    console.error('[POS Offers Popup] Error:', err);
+    ofertasSwitch.checked = !desiredState;
+    showMessage('Error de comunicaci\u00f3n con la extensi\u00f3n', 'error');
+  } finally {
+    isToggling = false;
+    ofertasSwitch.disabled = false;
   }
 });
 
-// ---- Show message helper ----
+// -- Show message helper ------------------------------------------------
+
 function showMessage(text, type) {
   messageEl.textContent = text;
   messageEl.className = `message show ${type}`;
+
+  // Auto-hide after a delay (longer for errors)
+  const delay = type === 'error' ? 6000 : 3000;
   setTimeout(() => {
     messageEl.className = 'message';
-  }, 4000);
+  }, delay);
 }

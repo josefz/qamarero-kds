@@ -1,26 +1,33 @@
 # POS Offers Toggle Extension
 
-This Chrome extension allows toggling POS offers in Qamarero KDS.
+Chrome extension (MV3) to toggle the **OFERTAS** menu category on/off in [Qamarero POS](https://pos.qamarero.com) with a single click.
 
-## Features
-- Toggle offers directly from the POS interface.
-- Simple popup UI for quick access.
+## How it works
 
-## Structure
-- `content.js`: Injects and manages offer toggling.
-- `content.css`: Styles for the extension.
-- `popup.html`: Popup interface.
-- `popup.js`: Popup logic.
-- `popup.css`: Popup styles.
-- `manifest.json`: Chrome extension manifest.
+The extension sends the `EditCategory` GraphQL mutation directly to the Qamarero API. Authentication is handled automatically using the session cookie and a self-generated DPoP proof.
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for full technical details.
 
 ## Installation
-1. Open Chrome and go to Extensions.
-2. Enable Developer Mode.
-3. Click "Load unpacked" and select the `pos-offers-toggle-extension` folder.
 
-## Usage
-Click the extension icon to open the popup and toggle offers.
+1. Open Chrome → `chrome://extensions/`
+2. Enable **Developer Mode** (top right)
+3. Click **"Load unpacked"** and select this folder
+4. Navigate to `https://pos.qamarero.com` and log in
+5. Click the extension icon → toggle OFERTAS on/off
 
-## License
-See LICENSE file if present.
+## File Structure
+
+| File | Purpose |
+|------|--------|
+| `manifest.json` | MV3 manifest with permissions and content scripts |
+| `background.js` | Service worker — generates DPoP, reads JWT cookie, sends GraphQL mutation |
+| `popup.html/js/css` | Extension popup UI — toggle switch and status display |
+| `intercept.js` | MAIN world content script — intercepts `GetMenu` responses to read current OFERTAS state |
+| `injector.js` | ISOLATED world bridge — relays intercepted data to `chrome.storage.local` |
+| `content.js` | Minimal stub |
+
+## Requirements
+
+- Chrome 116+ (MV3 service workers)
+- Active session on `https://pos.qamarero.com` (logged in)
