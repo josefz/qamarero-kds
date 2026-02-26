@@ -13,9 +13,14 @@
       <input type="password" id="pin" placeholder="Código maestro">
     </div>
     
-    <button id="toggleBtn" class="action-btn">
-      Activar/Desactivar OFERTAS
-    </button>
+    <div class="section switch-section">
+      <span class="switch-label">OFERTAS:</span>
+      <label class="switch">
+        <input type="checkbox" id="ofertasSwitch">
+        <span class="slider"></span>
+      </label>
+      <span id="ofertasStatus" class="status-badge"></span>
+    </div>
     
     <div id="message" class="message"></div>
   </div>
