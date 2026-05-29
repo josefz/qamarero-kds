@@ -19,7 +19,6 @@ const OFERTAS_CATEGORY = {
   mode: 'LIST',
   order: 0,
   name: 'OFERTAS',
-  visible: true,
   interactive: true,
   subcategories: [],
 };
@@ -31,6 +30,7 @@ mutation EditCategory($input: CategoryInput!) {
     id
     name
     available
+    visible
     __typename
   }
 }
@@ -169,6 +169,7 @@ async function toggleOfertas(available) {
       input: {
         ...OFERTAS_CATEGORY,
         available: available,
+        visible: available,
       },
     },
     query: EDIT_CATEGORY_MUTATION,
